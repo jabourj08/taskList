@@ -1,0 +1,13 @@
+C:\Users\Josh\source\repos\taskList\taskList\bin\Debug\netcoreapp3.1\taskList.exe
+C:\Users\Josh\source\repos\taskList\taskList\bin\Debug\netcoreapp3.1\taskList.deps.json
+C:\Users\Josh\source\repos\taskList\taskList\bin\Debug\netcoreapp3.1\taskList.runtimeconfig.json
+C:\Users\Josh\source\repos\taskList\taskList\bin\Debug\netcoreapp3.1\taskList.runtimeconfig.dev.json
+C:\Users\Josh\source\repos\taskList\taskList\bin\Debug\netcoreapp3.1\taskList.dll
+C:\Users\Josh\source\repos\taskList\taskList\bin\Debug\netcoreapp3.1\taskList.pdb
+C:\Users\Josh\source\repos\taskList\taskList\obj\Debug\netcoreapp3.1\taskList.csprojAssemblyReference.cache
+C:\Users\Josh\source\repos\taskList\taskList\obj\Debug\netcoreapp3.1\taskList.AssemblyInfoInputs.cache
+C:\Users\Josh\source\repos\taskList\taskList\obj\Debug\netcoreapp3.1\taskList.AssemblyInfo.cs
+C:\Users\Josh\source\repos\taskList\taskList\obj\Debug\netcoreapp3.1\taskList.csproj.CoreCompileInputs.cache
+C:\Users\Josh\source\repos\taskList\taskList\obj\Debug\netcoreapp3.1\taskList.dll
+C:\Users\Josh\source\repos\taskList\taskList\obj\Debug\netcoreapp3.1\taskList.pdb
+C:\Users\Josh\source\repos\taskList\taskList\obj\Debug\netcoreapp3.1\taskList.genruntimeconfig.cache
