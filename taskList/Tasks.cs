@@ -116,21 +116,20 @@ namespace taskList
             {
                 if (_highPriority)
                 {
-                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\t*****VERY IMPORTANT*****");
                     Console.ResetColor();
                 }
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.Write($"DONE");
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"DONE\tDue Date: {_dueDate.ToString("MM/dd/yyyy")}");
                 Console.ResetColor();
-                Console.WriteLine($"\tDue Date: {_dueDate}");
                 Console.WriteLine($"\tDescription: {_description}");
             }
             else
             {
                 if (_highPriority)
                 {
-                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\t*****VERY IMPORTANT*****");
                     Console.ResetColor();
                 }
@@ -138,7 +137,7 @@ namespace taskList
                 {
 
                 }
-                Console.WriteLine($"\tDue Date: {_dueDate}");
+                Console.WriteLine($"\tDue Date: {_dueDate.ToString("MM/dd/yyyy")}");
                 Console.WriteLine($"\tDescription: {_description}");
             }
             Console.WriteLine("------------------------------------------------------");
