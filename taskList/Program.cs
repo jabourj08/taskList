@@ -11,7 +11,9 @@ namespace taskList
     {
         static void Main(string[] args)
         {
+            //Big Ole Ugly List With Beautiful Names
             List<Tasks> taskList = new List<Tasks>
+            #region Open/Close the list
             {
                 new Tasks("Justin", "Feed the dogs", DateTime.Parse("10/31/2020"), false, true),
                 new Tasks("Josh", "Flush the toilet", DateTime.Parse("7/16/2020"), true, true),
@@ -24,6 +26,7 @@ namespace taskList
                 new Tasks("Justin", "Get groceries", DateTime.Parse("7/5/2020"), false, true),
                 new Tasks("Josh", "Build a shed", DateTime.Parse("5/8/2021"), false, true),
                 new Tasks("Jordan", "Buy some batteries", DateTime.Parse("10/21/2020"), false, true),
+                new Tasks("Amy(The GF wanted to be a part of my list)", "Plant Flowers(This is what she likes to do)", DateTime.Parse("05/28/2020"), true, true),
                 new Tasks("Lauren", "Make coffee", DateTime.Parse("7/30/2020"), false, true),
                 new Tasks("Justin", "Play board games", DateTime.Parse("8/2/2020"), false),
                 new Tasks("Josh", "Play board games", DateTime.Parse("8/2/2020"), false),
@@ -34,21 +37,21 @@ namespace taskList
                 new Tasks("Jordan", "Complete this assignment", DateTime.Parse("8/3/2020"), false, true),
                 new Tasks("Lauren", "Complete this assignment", DateTime.Parse("8/3/2020"), false, true),
             };
+            #endregion
 
+            Intro();
+            MainMenuOptions(taskList);
+            Outro();
+        }
+
+        //INTRO, Because Methods and stuff
+        public static void Intro()
+        {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("***** Hello and welcome to the Task Manager *****");
             Console.ResetColor();
             Console.WriteLine();
-
-            MainMenuOptions(taskList);
-
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("***** Thank you for using the Task Manager. Have a great day! *****");
-            Console.Write(" Press any key to exit...");
-            Console.ReadKey();
         }
-
         //Display Main Menu
         public static void MainMenuOptions(List<Tasks> taskList)
         {
@@ -59,16 +62,17 @@ namespace taskList
             Console.WriteLine();
             Console.WriteLine("1) List Tasks");
             Console.WriteLine("2) Add Task");
-            Console.WriteLine("3) Delete Task");
-            Console.WriteLine("4) Mark Task Complete");
-            Console.WriteLine("5) Quit");
+            Console.WriteLine("3) Modify Task");
+            Console.WriteLine("4) Delete Task");
+            Console.WriteLine("5) Change Completion Status");
+            Console.WriteLine("6) Quit");
             Console.WriteLine();
-            Console.Write("Enter 1-5: ");
+            Console.Write("Enter 1-6: ");
             Console.ResetColor();
             string input = Console.ReadLine();
 
             //Validate number format and range
-            int userSelection = CheckNumber(input, 5);
+            int userSelection = CheckNumber(input, 6);
 
             //Main Menu Determination
             if (userSelection == 1)
@@ -81,13 +85,17 @@ namespace taskList
             }
             else if (userSelection == 3)
             {
-                DeleteTask(taskList);
+                EditTask(taskList);
             }
             else if (userSelection == 4)
             {
-                MarkComplete(taskList);
+                DeleteTask(taskList);
             }
             else if (userSelection == 5)
+            {
+                MarkComplete(taskList);
+            }
+            else if (userSelection == 6)
             {
                 ExitProgram(taskList, true);
             }
@@ -184,16 +192,13 @@ namespace taskList
         public static void AddTask(List<Tasks> taskList)
         {
             Console.Clear();
-            string name;
-            string description;
-            DateTime dueDate;
             bool highPriority = false;
 
             //Name
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Please enter a team member's name to assign a task");
             Console.ResetColor();
-            name = Console.ReadLine();
+            string name = Console.ReadLine();
             name.ToLower();
             char c = name[0];
             name = name.Remove(0, 1);
@@ -205,14 +210,14 @@ namespace taskList
             Console.WriteLine();
             Console.WriteLine("Please enter a description for the task.");
             Console.ResetColor();
-            description = Console.ReadLine();
+            string description = Console.ReadLine();
 
             //Date
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine();
             Console.WriteLine("Please enter a due date in the following format: MM/DD/YYYY");
             Console.ResetColor();
-            dueDate = CheckDate(Console.ReadLine());
+            DateTime dueDate = CheckDate(Console.ReadLine());
 
             //Priority
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -234,6 +239,148 @@ namespace taskList
             Console.WriteLine("Task Successfully Added.");
             Console.ResetColor();
 
+            ReturnToMain(taskList);
+        }
+
+        //Edit a task
+        public static void EditTask(List<Tasks> taskList)
+        {
+            Console.Clear();
+            int count = 1;
+            Console.WriteLine("------------------------------------------------------");
+            foreach (Tasks item in taskList)
+            {
+                Console.WriteLine("Task Number: " + count);
+                item.PrintTasks();
+                count++;
+            }
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Which task would you like to Modify?");
+            Console.Write("Enter a number from 1-" + taskList.Count + ": ");
+            Console.ResetColor();
+            string input = Console.ReadLine();
+
+            //Validate number format and range
+            int userSelection = CheckNumber(input, taskList.Count);
+
+            Console.Clear();
+            //"Pop off list element to be modified"
+            var task = taskList.ElementAt(userSelection - 1);
+            string name = task.Name;
+            string description = task.Description;
+            DateTime dueDate = task.DueDate;
+            bool highPriority = task.HighPriority;
+
+            //Begin prompts for task modification
+            //NAME
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Do you need to change the TEAM MEMBER?");
+            Console.Write("Enter y/n: ");
+            Console.ResetColor();
+            input = CheckDecision(Console.ReadLine());
+            if (input == "y")
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("Please enter the new TEAM MEMBER: ");
+                Console.ResetColor();
+                name = Console.ReadLine();
+            }
+
+            //DESCRIPTION
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Do you need to change the DESCRIPTION?");
+            Console.Write("Enter y/n: ");
+            Console.ResetColor();
+            input = CheckDecision(Console.ReadLine());
+            if (input == "y")
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("Please enter the new DESCRIPTION: ");
+                Console.ResetColor();
+                description = Console.ReadLine();
+            }
+
+            //DATE
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Do you need to change the DUE DATE?");
+            Console.Write("Enter y/n: ");
+            Console.ResetColor();
+            input = CheckDecision(Console.ReadLine());
+            if (input == "y")
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write("Please enter the new DUE DATE: ");
+                Console.ResetColor();
+                dueDate = CheckDate(Console.ReadLine());
+            }
+
+            //PRIORITY
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Do you need to change the PRIORITY?");
+            Console.Write("Enter y/n: ");
+            Console.ResetColor();
+            input = CheckDecision(Console.ReadLine());
+            if (input == "y")
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine();
+                Console.WriteLine("Is this task HIGH PRIORITY?");
+                Console.Write("Enter y/n: ");
+                Console.ResetColor();
+                input = Console.ReadLine();
+
+                //Validate input
+                input = CheckDecision(input);
+                if (input == "y")
+                {
+                    highPriority = true;
+                }
+                else if (input == "n")
+                {
+                    highPriority = false;
+                }
+            }
+
+            //Confirm Modification
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Please take a moment to review your changes...");
+            Console.WriteLine("Are you sure you want to Modify Task Number: " + userSelection + "??");
+            Console.Write("Please enter y/n: ");
+            Console.ResetColor();
+
+            //Validate entry
+            input = CheckDecision(Console.ReadLine());
+
+            if (input == "y")
+            {
+                //UPDATE TASK
+                task.Name = name;
+                task.Description = description;
+                task.DueDate = dueDate;
+                task.HighPriority = highPriority;
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Successfully Updated: Task Number " + userSelection);
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Mission Aborted: Task Number " + userSelection + " remains unscathed!");
+                Console.ResetColor();
+            }
             ReturnToMain(taskList);
         }
 
@@ -474,6 +621,7 @@ namespace taskList
             Console.ResetColor();
             Console.ReadKey();
             Console.WriteLine();
+            Console.Clear();
             MainMenuOptions(taskList);
         }
 
@@ -482,6 +630,16 @@ namespace taskList
         {
             Console.Beep(1000, 100); Console.Beep(1000, 100); Console.Beep(1000, 100);
             Console.Beep(2000, 100); Console.Beep(2000, 100); Console.Beep(2000, 100);
+        }
+
+        //Outro, Because Methods and stuff
+        public static void Outro()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("***** Thank you for using the Task Manager. Have a great day! *****");
+            Console.Write(" Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }

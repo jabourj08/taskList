@@ -121,7 +121,7 @@ namespace taskList
                     Console.ResetColor();
                 }
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine($"DONE\tDue Date: {_dueDate.ToString("MM/dd/yyyy")}");
+                Console.WriteLine($"DONE!\tDue Date: {_dueDate.ToString("MM/dd/yyyy")}");
                 Console.ResetColor();
                 Console.WriteLine($"\tDescription: {_description}");
             }
@@ -135,15 +135,18 @@ namespace taskList
                 }
                 if (_dueDate < DateTime.Now)//DETERMINE PAST DUE
                 {
-
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"LATE!\tDue Date: {_dueDate.ToString("MM/dd/yyyy")}");
+                    Console.ResetColor();
+                    Console.WriteLine($"\tDescription: {_description}");
                 }
-                Console.WriteLine($"\tDue Date: {_dueDate.ToString("MM/dd/yyyy")}");
-                Console.WriteLine($"\tDescription: {_description}");
+                else
+                {
+                    Console.WriteLine($"\tDue Date: {_dueDate.ToString("MM/dd/yyyy")}");
+                    Console.WriteLine($"\tDescription: {_description}");
+                }
             }
             Console.WriteLine("------------------------------------------------------");
-        }
-        public void PrintNames()
-        {
         }
         #endregion
     }
